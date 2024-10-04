@@ -20,7 +20,7 @@ import Navbar from "@/components/Navbar.vue"; // Importa el componente Navbar
 
 // Definir la URL base de la API según el entorno
 const API_URL = process.env.NODE_ENV === 'production'
-  ? 'https://tu-dominio.com/api'
+  ? 'https://todo-app-production-631e.up.railway.app/api'
   : 'http://127.0.0.1:8000/api';
 
 export default {
