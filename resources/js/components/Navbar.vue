@@ -60,15 +60,17 @@ export default {
 .navbar {
   background-color: #8f653f;
   color: #ffffff;
-  padding: 15px 30px;
+  padding: 15px 20px; /* Ajustar padding para evitar que se salga */
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 70%;
+  width: 100%; /* Asegura que ocupe el ancho completo */
+  max-width: 100vw; /* Asegura que no se salga del viewport */
   margin: 0 auto;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   font-family: 'Poppins', sans-serif;
+  box-sizing: border-box; /* Incluye el padding dentro del ancho total */
 }
 
 /* Estilo de los enlaces */
@@ -76,6 +78,8 @@ export default {
   list-style: none;
   display: flex;
   gap: 20px;
+  margin: 0; /* Evitar que los márgenes de ul afecten el diseño */
+  padding: 0; /* Evitar padding adicional */
 }
 
 .navbar-links li {
@@ -109,27 +113,28 @@ export default {
 /* Estilo del menú en vista móvil */
 @media (max-width: 600px) {
   .navbar {
-    justify-content: flex-end; /* Alinear a la derecha */
-    width: 100%; /* Ancho completo en móvil */
+    padding: 15px 10px; /* Reducir el padding en móviles */
+    border-radius: 0; /* Evitar bordes en pantalla móvil para mejor ajuste */
+    box-sizing: border-box; /* Para evitar que el padding desplace el contenedor */
   }
 
   .navbar-links {
     flex-direction: column; /* Colocar enlaces en vertical */
     position: absolute;
     top: 60px; /* Ajusta según la altura de la barra */
-    right: 0; /* Alinear a la derecha */
-    background-color: #7133c9; /* Color de fondo más atractivo (morado) */
-    width: 100%; /* Ancho completo */
-    padding: 10px 0; /* Espaciado interno */
+    left: 0; /* Alinear a la izquierda para que no se salga */
+    right: 0; /* Asegurar que ocupa el ancho completo */
+  background-color: #8f653f; /* Color de fondo */
+    padding: 10px 0;
     border-radius: 0 0 8px 8px; /* Bordes redondeados inferiores */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
-    display: none; /* Ocultar por defecto */
     z-index: 1; /* Asegurar que esté por encima de otros elementos */
   }
 
   .navbar-links li {
     padding: 10px 0; /* Espaciado de los enlaces */
     text-align: center;
+    width: 100%; /* Ocupa todo el ancho disponible */
   }
 
   .navbar-links a {
@@ -142,6 +147,11 @@ export default {
 
   .navbar-links[style*="display: block"] {
     display: flex; /* Mostrar menú desplegable */
+    flex-direction: column; /* Asegurar que los enlaces se alineen en columna */
+    align-items: center; /* Centrarlos */
+    width: 100%; /* Que ocupe todo el ancho */
   }
 }
+
+
 </style>

@@ -71,7 +71,10 @@
 import axios from "axios";
 import Navbar from "@/components/Navbar.vue";
 
-const API_URL = "https://your-api-url.com/api"; // Define aquí tu API_URL
+// Definir la URL base de la API según el entorno
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://todo-app-production-631e.up.railway.app/api'
+  : 'http://127.0.0.1:8000/api';
 
 export default {
   components: {
