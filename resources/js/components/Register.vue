@@ -1,6 +1,6 @@
 <template>
-      <!-- Incluir la barra de navegación -->
-      <Navbar />
+  <!-- Incluir la barra de navegación -->
+  <Navbar />
   <div class="register-container">
     <div class="register-box">
       <h1>Registrar</h1>
@@ -27,6 +27,11 @@
 import axios from 'axios';
 import Navbar from "@/components/Navbar.vue"; // Importa el componente Navbar
 
+// Definir la URL base de la API según el entorno
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://tu-dominio.com/api'
+  : 'http://127.0.0.1:8000/api';
+
 export default {
   components: {
     Navbar, // Declara el componente
@@ -44,7 +49,7 @@ export default {
       console.log("Password:", this.password);
       console.log("Confirm Password:", this.password_confirmation);
       try {
-        const response = await axios.post('/api/register', {
+        const response = await axios.post(`${API_URL}/register`, {
           name: this.name,
           email: this.email,
           password: this.password,
@@ -53,12 +58,13 @@ export default {
         console.log('Registro exitoso:', response.data);
         this.$router.push('/login'); // Redirigir al login después del registro
       } catch (error) {
-        console.error('Error de registro:', error);
+        console.error('Error de registro:', error.response?.data?.message || error.message);
       }
     },
   },
 };
 </script>
+
 
 <style scoped>
 

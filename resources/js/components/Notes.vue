@@ -60,7 +60,6 @@
         <p v-if="note.user">Usuario: {{ note.user.name }}</p>
         <button @click="editNote(note)" class="edit-btn">Editar</button>
         <button @click="deleteNote(note.id)" class="delete-btn">Eliminar</button>
-
       </li>
     </ul>
 
@@ -72,6 +71,8 @@
 import axios from "axios";
 import Navbar from "@/components/Navbar.vue";
 
+const API_URL = "https://your-api-url.com/api"; // Define aquí tu API_URL
+
 export default {
   components: {
     Navbar,
@@ -82,8 +83,7 @@ export default {
         title: "",
         description: "",
         tag: "",
-        due_date: "", // Añadir campo para fecha de vencimiento
-
+        due_date: "",
       },
       errors: {
         title: null,
@@ -92,9 +92,8 @@ export default {
       },
       isEdit: false,
       currentNoteId: null,
-      tags: [], 
-      sortField: "created_at", // Campo por defecto para la ordenación
-
+      tags: [],
+      sortField: "created_at",
     };
   },
   computed: {
@@ -106,7 +105,7 @@ export default {
     },
     notes() {
       const response = this.$store.getters.getNotes;
-      return response?.data || []; 
+      return response?.data || [];
     },
     sortedNotes() {
       return [...this.notes].sort((a, b) => {
@@ -117,7 +116,7 @@ export default {
   created() {
     this.$store.dispatch('tryAutoLogin').then(() => {
       if (this.isAuthenticated) {
-        this.fetchTags(); // Llama a la función para obtener tags
+        this.fetchTags();
         this.$store.dispatch('fetchNotes');
       }
     });
@@ -125,10 +124,10 @@ export default {
   methods: {
     async fetchTags() {
       try {
-        const response = await axios.get("/api/tags", {
-          headers: { Authorization: `Bearer ${this.token}` }, // Autenticación
+        const response = await axios.get(`${API_URL}/tags`, {
+          headers: { Authorization: `Bearer ${this.token}` },
         });
-        this.tags = response.data; // Asigna los tags obtenidos a la propiedad tags
+        this.tags = response.data;
       } catch (error) {
         console.error("Error al obtener los tags", error);
         this.errors.server = "Error al cargar los tags.";
@@ -162,15 +161,15 @@ export default {
       try {
         const payload = { ...this.noteForm };
         if (!this.noteForm.due_date) {
-          delete payload.due_date; // Si no hay fecha de vencimiento, no la incluimos en el payload
+          delete payload.due_date;
         }
 
         if (this.isEdit) {
-          await axios.put(`/api/notes/${this.currentNoteId}`, this.noteForm, {
+          await axios.put(`${API_URL}/notes/${this.currentNoteId}`, this.noteForm, {
             headers: { Authorization: `Bearer ${this.token}` },
           });
         } else {
-          await axios.post("/api/notes", this.noteForm, {
+          await axios.post(`${API_URL}/notes`, this.noteForm, {
             headers: { Authorization: `Bearer ${this.token}` },
           });
         }
@@ -196,7 +195,7 @@ export default {
       }
 
       try {
-        await axios.delete(`/api/notes/${id}`, {
+        await axios.delete(`${API_URL}/notes/${id}`, {
           headers: { Authorization: `Bearer ${this.token}` },
         });
         this.$store.dispatch('fetchNotes');
@@ -210,13 +209,14 @@ export default {
     },
 
     resetForm() {
-      this.noteForm = { title: "", description: "", tag: "", due_date: ""  };
+      this.noteForm = { title: "", description: "", tag: "", due_date: "" };
       this.isEdit = false;
       this.currentNoteId = null;
     },
   },
 };
 </script>
+
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');

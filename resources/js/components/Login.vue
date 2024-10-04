@@ -1,6 +1,6 @@
 <template>
-    <!-- Incluir la barra de navegación -->
-    <Navbar />
+  <!-- Incluir la barra de navegación -->
+  <Navbar />
   <div class="login-container">
     <div class="login-box">
       <h1>Iniciar Sesión</h1>
@@ -18,6 +18,10 @@ import axios from 'axios';
 import { mapMutations } from 'vuex';
 import Navbar from "@/components/Navbar.vue"; // Importa el componente Navbar
 
+// Definir la URL base de la API según el entorno
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://tu-dominio.com/api'
+  : 'http://127.0.0.1:8000/api';
 
 export default {
   components: {
@@ -33,7 +37,7 @@ export default {
     ...mapMutations(['setUser']),
     async login() {
       try {
-        const response = await axios.post('/api/login', {
+        const response = await axios.post(`${API_URL}/login`, {
           email: this.email,
           password: this.password,
         });
@@ -57,6 +61,7 @@ export default {
   },
 };
 </script>
+
 
 <style scoped>
 body {

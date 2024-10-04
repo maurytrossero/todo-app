@@ -1,6 +1,11 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
 
+// Definir la URL base de la API según el entorno
+const API_URL = process.env.NODE_ENV === 'production'
+  ? 'https://todo-app-production-631e.up.railway.app/api'
+  : 'http://127.0.0.1:8000/api';
+
 export default createStore({
   state: {
     notes: [], // Almacena las notas
@@ -28,7 +33,7 @@ export default createStore({
     async fetchNotes({ commit, state }) {
       if (state.token) { // Verificamos si hay un token
         try {
-          const response = await axios.get('/api/notes', {
+          const response = await axios.get(`${API_URL}/notes`, {
             headers: {
               Authorization: `Bearer ${state.token}`, // Enviar el token en la cabecera
             },
@@ -43,7 +48,7 @@ export default createStore({
     },
     async login({ commit }, authData) {
       try {
-        const response = await axios.post('/api/login', {
+        const response = await axios.post(`${API_URL}/login`, {
           email: authData.email,
           password: authData.password,
         });
@@ -59,7 +64,6 @@ export default createStore({
     logout({ commit }) {
       commit('clearAuthData'); // Limpiar los datos de autenticación al cerrar sesión
     },
-    // Ejemplo en tryAutoLogin
     async tryAutoLogin({ commit }) {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -68,7 +72,7 @@ export default createStore({
       }
       try {
         console.log('Intentando autenticación automática con token:', token);
-        const response = await axios.get('/api/user', {
+        const response = await axios.get(`${API_URL}/user`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
