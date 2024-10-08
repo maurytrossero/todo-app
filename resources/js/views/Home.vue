@@ -21,8 +21,9 @@
     </p>
     
   </div>
-  <Footer/>
+  <Footer />
 </template>
+
 
 <script>
 import Navbar from "@/components/Navbar.vue"; // Importa el componente Navbar
@@ -43,13 +44,29 @@ export default {
   flex-direction: column;
   align-items: center;
   justify-content: flex-start; /* Alinea el contenido hacia arriba */
-  height: 90vh; /* Ajustar para que no ocupe el 100% y dé más espacio */
+  min-height: calc(100vh - 60px); /* Ajusta para que no ocupe el 100% y dé más espacio */
   background-color: #f5f5f5;
   padding: 20px;
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  /* Añadir un margen inferior para asegurar que el contenido no esté detrás del footer */
+  margin-bottom: 60px; /* Ajusta según la altura de tu footer */
 }
+
+/* Estilos para el footer */
+footer {
+  position: absolute; /* Asegúrate de que el footer esté posicionado en la parte inferior */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px; /* Ajusta la altura según el diseño de tu footer */
+  background-color: #fff; /* Ajusta el color de fondo según sea necesario */
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1); /* Sombra para el footer si lo deseas */
+}
+
+
+
 
 /* Estilo para el título */
 h1 {
@@ -155,7 +172,7 @@ nav ul li {
   .home-container {
     max-width: 80%;
     padding: 40px;
-    height: 80vh; /* Ajustar la altura en pantallas grandes */
+    min-height: calc(100vh - 120px); /* Ajustar la altura en pantallas grandes */
   }
 
   nav ul {
@@ -171,7 +188,7 @@ nav ul li {
 @media (max-width: 768px) {
   .home-container {
     padding: 10px;
-    height: 85vh; /* Asegurar que el contenido esté dentro de la pantalla */
+    min-height: calc(100vh - 80px); /* Asegurar que el contenido esté dentro de la pantalla */
     text-align: center;
   }
 
